@@ -24,23 +24,32 @@ func main() {
 	}
 	Args := os.Args[2]
 	Args = strings.ReplaceAll(Args, "\\n", "\n")
+	Args = strings.ReplaceAll(Args, "\"", string('"'))
+	Args = strings.ReplaceAll(Args, "\\'", "'")
+
+
+	// fmt.Println(Args)
 	stringLine := ""
 	var testString string
 	var multiString []string
 	for x, y := range Args {
+
 		if y == 10 {
 			multiString = append(multiString, testString)
 			testString = ""
 		} else {
 			testString = testString + string(y)
 		}
-		if x == len(Args)-1 {
-
+		if x == len(Args)-1 && testString != ""{
 			multiString = append(multiString, testString)
 		}
 	}
-	fmt.Println(multiString)
+	// fmt.Println(len(multiString))
+	// fmt.Print(multiString[0])
+
+// count := 0
 	for _, args2 := range multiString {
+		if args2 != "" {
 		for i := 2; i < 10; i++ {
 			for _, data := range args2 {
 				sourceline := (((int(data) - 32) * 9) + i)
@@ -49,8 +58,38 @@ func main() {
 			}
 			fmt.Println(stringLine)
 			stringLine = ""
+			}
+		}else {
+			// count++
+				fmt.Print("\n")
+			}
 		}
-		fmt.Print("\n")
+		// fmt.Println(count)
 	}
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
