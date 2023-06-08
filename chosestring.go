@@ -12,6 +12,7 @@ func ChooseString (standard []byte, valueofrune int) []byte {
 		j = i + 1
 		break
 	}
+	// testing
 	}
 	for ;j > 0; j++ {
 	if standard[j] == 10 {
