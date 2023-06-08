@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -15,69 +16,41 @@ func main() {
 		fmt.Println("File name missing")
 		return
 	}
-	file66 := os.Args[1]
-	file, err := ioutil.ReadFile(file66)
+	file := os.Args[1]
+	sourceFile, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
 	Args := os.Args[2]
-	fmt.Println(Args)
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 2)
-		file1 := asciiart.ChooseString(file, arrayofrune)
-		fmt.Println(string(file1))
+	Args = strings.ReplaceAll(Args, "\\n", "\n")
+	stringLine := ""
+	var testString string
+	var multiString []string
+	for x, y := range Args {
+		if y == 10 {
+			multiString = append(multiString, testString)
+			testString = ""
+		} else {
+			testString = testString + string(y)
+		}
+		if x == len(Args)-1 {
 
+			multiString = append(multiString, testString)
+		}
 	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 3)
-		file2 := asciiart.ChooseString(file, arrayofrune)
-		fmt.Println(string(file2))
-
+	fmt.Println(multiString)
+	for _, args2 := range multiString {
+		for i := 2; i < 10; i++ {
+			for _, data := range args2 {
+				sourceline := (((int(data) - 32) * 9) + i)
+				charRow := asciiart.ChooseString(sourceFile, sourceline)
+				stringLine = stringLine + string(charRow)
+			}
+			fmt.Println(stringLine)
+			stringLine = ""
+		}
+		fmt.Print("\n")
 	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 4)
-		file3 := asciiart.ChooseString(file, arrayofrune)
 
-		fmt.Println(string(file3))
-
-	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 5)
-		file4 := asciiart.ChooseString(file, arrayofrune)
-
-		fmt.Println(string(file4))
-	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 6)
-		file5 := asciiart.ChooseString(file, arrayofrune)
-
-		fmt.Println(string(file5))
-	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 7)
-		file6 := asciiart.ChooseString(file, arrayofrune)
-
-		fmt.Println(string(file6))
-
-	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 8)
-		file7 := asciiart.ChooseString(file, arrayofrune)
-
-		fmt.Println(string(file7))
-	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 9)
-		file8 := asciiart.ChooseString(file, arrayofrune)
-
-		fmt.Println(string(file8))
-
-	}
-	for _, c := range Args {
-		arrayofrune := (((int(c) - 32) * 9) + 10)
-		file9 := asciiart.ChooseString(file, arrayofrune)
-
-		fmt.Println(string(file9))
-	}
 }
