@@ -3,7 +3,6 @@ package main
 import (
 	"asciiart"
 	"fmt"
-	"io/ioutil"
 	"os"
 )
 
@@ -18,32 +17,19 @@ func main() {
 	}
 	// Read char file & string argument
 	file := os.Args[1]
-	sourceFile, err := ioutil.ReadFile(file)
+	sourceFile, err := os.ReadFile(file)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
 	rawInput := os.Args[2]
 
-	// Sub function: Formatting (change input to allow use of newline & qoutation marks)
 	// Main function: Splitting (split string based on newline position)
+	// ∟--> Sub function: Formatting (change input to allow use of newline & qoutation marks)
 	splitInput := asciiart.LineSplitter(rawInput, asciiart.InputFormatter)
 
-	// Third & Fourth Functions: Parsing & Printing
-	stringLine := ""
-	for _, args2 := range splitInput {
-		if args2 != "" {
-			for i := 2; i < 10; i++ {
-				for _, data := range args2 {
-					sourceline := (((int(data) - 32) * 9) + i)
-					charRow := asciiart.ChooseString(sourceFile, sourceline)
-					stringLine = stringLine + string(charRow)
-				}
-				fmt.Println(stringLine)
-				stringLine = ""
-			}
-		} else {
-			fmt.Print("\n")
-		}
-	}
+	// Main function: Printing (printing the row of characters within input string)
+	// ∟--> Sub function: Parsing (parsing the data of the 8 rows to print sequentially)
+	asciiart.RowPrinter(splitInput, sourceFile, asciiart.RowParser)
+
 }
