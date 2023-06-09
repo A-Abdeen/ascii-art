@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 )
 
 func main() {
+	// Check if input is correct
 	if len(os.Args) > 3 {
 		fmt.Println("Too many arguments")
 		return
@@ -16,23 +16,23 @@ func main() {
 		fmt.Println("File name missing")
 		return
 	}
+	// Read char file & string argument
 	file := os.Args[1]
 	sourceFile, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
-	Args := os.Args[2]
-	Args = strings.ReplaceAll(Args, "\\n", "\n")
-	Args = strings.ReplaceAll(Args, "\"", string('"'))
-	Args = strings.ReplaceAll(Args, "\\'", "'")
+	rawInput := os.Args[2]
 
+	// First function: Modifier (change input to allow use of newline & qoutation marks)
+	formattedInput := asciiart.InputFormatter(rawInput)
 
-	// fmt.Println(Args)
+	// Second function: Splitting (split string)
 	stringLine := ""
 	var testString string
 	var multiString []string
-	for x, y := range Args {
+	for x, y := range formattedInput {
 
 		if y == 10 {
 			multiString = append(multiString, testString)
@@ -40,56 +40,25 @@ func main() {
 		} else {
 			testString = testString + string(y)
 		}
-		if x == len(Args)-1 && testString != ""{
+		if x == len(formattedInput)-1 && testString != "" {
 			multiString = append(multiString, testString)
 		}
 	}
-	// fmt.Println(len(multiString))
-	// fmt.Print(multiString[0])
 
-// count := 0
+	// Third & Fourth Functions: Parsing & Printing
 	for _, args2 := range multiString {
 		if args2 != "" {
-		for i := 2; i < 10; i++ {
-			for _, data := range args2 {
-				sourceline := (((int(data) - 32) * 9) + i)
-				charRow := asciiart.ChooseString(sourceFile, sourceline)
-				stringLine = stringLine + string(charRow)
+			for i := 2; i < 10; i++ {
+				for _, data := range args2 {
+					sourceline := (((int(data) - 32) * 9) + i)
+					charRow := asciiart.ChooseString(sourceFile, sourceline)
+					stringLine = stringLine + string(charRow)
+				}
+				fmt.Println(stringLine)
+				stringLine = ""
 			}
-			fmt.Println(stringLine)
-			stringLine = ""
-			}
-		}else {
-			// count++
-				fmt.Print("\n")
-			}
+		} else {
+			fmt.Print("\n")
 		}
-		// fmt.Println(count)
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
