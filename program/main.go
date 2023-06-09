@@ -25,28 +25,13 @@ func main() {
 	}
 	rawInput := os.Args[2]
 
-	// First function: Modifier (change input to allow use of newline & qoutation marks)
-	formattedInput := asciiart.InputFormatter(rawInput)
-
-	// Second function: Splitting (split string)
-	stringLine := ""
-	var testString string
-	var multiString []string
-	for x, y := range formattedInput {
-
-		if y == 10 {
-			multiString = append(multiString, testString)
-			testString = ""
-		} else {
-			testString = testString + string(y)
-		}
-		if x == len(formattedInput)-1 && testString != "" {
-			multiString = append(multiString, testString)
-		}
-	}
+	// Sub function: Formatting (change input to allow use of newline & qoutation marks)
+	// Main function: Splitting (split string based on newline position)
+	splitInput := asciiart.LineSplitter(rawInput, asciiart.InputFormatter)
 
 	// Third & Fourth Functions: Parsing & Printing
-	for _, args2 := range multiString {
+	stringLine := ""
+	for _, args2 := range splitInput {
 		if args2 != "" {
 			for i := 2; i < 10; i++ {
 				for _, data := range args2 {
