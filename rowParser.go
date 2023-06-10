@@ -3,21 +3,21 @@ package asciiart
 func RowParser(sourceFile []byte, rowLocation int) []byte {
 	charRowData := []byte{}
 	count := 1
-	j := 1
+	lineNumber := 1 
 	for i := 0; i >= 0; i++ {
-		if sourceFile[i] == 10 {
+		if sourceFile[i] == 10 {   // if new line found increase count
 			count++
 		}
 		if count == rowLocation {
-			j = i + 1
+			lineNumber = i + 1
 			break
 		}
 	}
-	for ; j > 0; j++ {
-		if sourceFile[j] == 10 {
+	for ; lineNumber > 0; lineNumber++ {
+		if sourceFile[lineNumber] == 10 { // if new line found stop appending char data
 			break
 		}
-		charRowData = append(charRowData, sourceFile[j])
+		charRowData = append(charRowData, sourceFile[lineNumber])
 	}
 	return charRowData
 }
